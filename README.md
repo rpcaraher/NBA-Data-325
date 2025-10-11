@@ -1,14 +1,27 @@
 # NBA-Data-2010-2024 🏀
-This repository contains CSV files containing comprehensive NBA data spanning from the year 2010 to 2024, offering valuable insights into player statistics, team performances, game outcomes, and more.
 
+This repository contains CSV files containing comprehensive NBA data spanning from the year 2010 to 2024.
 
-> [!IMPORTANT]  
-> In the future, I plan to update this dataset twice a year, after the end of the regular season and after the end of the playoffs.
+This data set was created by [@NocturneBear](https://github.com/NocturneBear) and then edited by [@rpcaraher](https://github.com/rpcaraher).
 
+---
 
-## Schema of box scores ([play_off_box_scores_2010_2024.csv](https://github.com/NocturneBear/NBA-Data-2010-2024/blob/main/play_off_box_scores_2010_2024.csv), [regular_season_box_scores_2010_2024_part_1.csv](https://github.com/NocturneBear/NBA-Data-2010-2024/blob/main/regular_season_box_scores_2010_2024_part_1.csv), [regular_season_box_scores_2010_2024_part_2.csv](https://github.com/NocturneBear/NBA-Data-2010-2024/blob/main/regular_season_box_scores_2010_2024_part_2.csv), [regular_season_box_scores_2010_2024_part_3.csv](https://github.com/NocturneBear/NBA-Data-2010-2024/blob/main/regular_season_box_scores_2010_2024_part_3.csv))
+## Usage
+
+Each of the **nba_player_stats** files contains data at the player-game level, organized by season. The **team_stats** file contains data on game outcomes at the team-game level.
+The **nba_team_stats** data can be linked to unique rows in the **player_stats** data using the key variables `season_year`, `game_id`, and `team_id`.
+
+---
+
+## Original schema of box scores 
+
+- [play_off_box_scores_2010_2024.csv](https://github.com/NocturneBear/NBA-Data-2010-2024/blob/main/play_off_box_scores_2010_2024.csv)
+- [regular_season_box_scores_2010_2024_part_1.csv](https://github.com/NocturneBear/NBA-Data-2010-2024/blob/main/regular_season_box_scores_2010_2024_part_1.csv)
+- [regular_season_box_scores_2010_2024_part_2.csv](https://github.com/NocturneBear/NBA-Data-2010-2024/blob/main/regular_season_box_scores_2010_2024_part_2.csv)
+- [regular_season_box_scores_2010_2024_part_3.csv](https://github.com/NocturneBear/NBA-Data-2010-2024/blob/main/regular_season_box_scores_2010_2024_part_3.csv)
 
 ### Dimensions
+
 - **season_year**: The year of the basketball season.
 - **game_date**: The date of the game.
 - **gameId**: Unique identifier for the game.
@@ -24,6 +37,7 @@ This repository contains CSV files containing comprehensive NBA data spanning fr
 - **jerseyNum**: The jersey number of the player.
 
 ### Metrics
+
 - **minutes**: The number of minutes played by the player.
 - **fieldGoalsMade**: The number of field goals made by the player.
 - **fieldGoalsAttempted**: The number of field goals attempted by the player.
@@ -45,9 +59,13 @@ This repository contains CSV files containing comprehensive NBA data spanning fr
 - **points**: The total number of points scored by the player.
 - **plusMinusPoints**: The plus-minus statistic for the player, indicating the team's score differential when the player is on the court.
 
-## Schema of game totals ([play_off_totals_2010_2024.csv](https://github.com/NocturneBear/NBA-Data-2010-2024/blob/main/play_off_totals_2010_2024.csv), [regular_season_totals_2010_2024.csv](https://github.com/NocturneBear/NBA-Data-2010-2024/blob/main/regular_season_totals_2010_2024.csv))
+## Original schema of game totals 
+
+- [play_off_totals_2010_2024.csv](https://github.com/NocturneBear/NBA-Data-2010-2024/blob/main/play_off_totals_2010_2024.csv)
+- [regular_season_totals_2010_2024.csv](https://github.com/NocturneBear/NBA-Data-2010-2024/blob/main/regular_season_totals_2010_2024.csv)
 
 ### Dimensions
+
 - **SEASON_YEAR**: The year of the NBA season.
 - **TEAM_ID**: Unique identifier for the team.
 - **TEAM_ABBREVIATION**: Abbreviated name of the team.
@@ -58,6 +76,7 @@ This repository contains CSV files containing comprehensive NBA data spanning fr
 - **WL**: Outcome of the game (Win or Loss).
 
 ### Metrics
+
 - **MIN**: Total minutes played in the game.
 - **FGM**: Field goals made.
 - **FGA**: Field goals attempted.
@@ -87,14 +106,6 @@ This repository contains CSV files containing comprehensive NBA data spanning fr
 - **MIN_RANK**: Rank based on minutes played.
 - **Ranks for various statistical categories like field goals made, rebounds, assists, etc., indicated by suffix _RANK.**
 - **AVAILABLE_FLAG**: Indicates if the data for this row is available.
-
-## Usage
-These tables can be queried to analyze player performance, team statistics, and game trends over different seasons. I personally upload data to Google Cloud BigQuery and analyze it using SQL.
-
-
-## Authors
-
-- [@NocturneBear](https://github.com/NocturneBear)
 
 ## License
 

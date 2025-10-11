@@ -1,14 +1,12 @@
-## Data Cleaning for EC 325
+## Data Cleaning NBA DAta for EC 325
 
 library(tidyverse)
-
 
 rm(list = ls())
 
 options(scipen = 999)
 
-
-## Read in original data
+## Read in original data and combine
 
 part1 <- read_csv("regular_season_box_scores_2010_2024_part_1.csv")
 
@@ -16,9 +14,7 @@ part2 <- read_csv("regular_season_box_scores_2010_2024_part_2.csv")
 
 part3 <- read_csv("regular_season_box_scores_2010_2024_part_3.csv")
 
-
 nba_comb <- bind_rows(part1, part2, part3)
-
 
 colnames(nba_comb)
 
@@ -28,7 +24,7 @@ nba_comb <- nba_comb |>
   mutate(year = as.integer(substr(season_year, 1, 4)))
 
 nba_comb <- nba_comb |> 
-  mutate(game_id = as.character(gameId),
+  mutate(game_id = str_pad(gameId, 10, side = "left", pad = "0"),
   team_id = as.character(teamId),
   player_id = as.character(personId))
 
@@ -47,8 +43,8 @@ nba_comb <- nba_comb |>
     season_year, year,
     player_id, player_name, 
     team_id, team_name, team_abb, team_city,
-    game_id, game_date, matchup,
-    points,
+    game_id, game_date, matchup, position,
+    points, mins,
     fieldGoalsAttempted, fieldGoalsMade,
     threePointersAttempted, threePointersMade,
     freeThrowsAttempted, threePointersMade,
@@ -58,44 +54,48 @@ nba_comb <- nba_comb |>
 
 colnames(nba_comb)
 
-colnames(nba_data_teams)
+## Export as smaller files
 
-## Merge in team data
+count(nba_comb, year)
 
-nba_comb <- nba_comb |> 
-    mutate(gameId = as.character(gameId))
+nba_comb |> 
+  filter(year >= 2010 & year <= 2015) |> 
+  write_csv("nba_player_stats_pt1.csv")
 
-nba_full <- nba_comb |>
-    left_join(nba_data_teams,
-    by = c(
-        "game_date" = "GAME_DATE",
-        "matchup" = "MATCHUP",
-        "teamTricode" = "TEAM_ABBREVIATION"))
+nba_comb |> 
+  filter(year >= 2016 & year <= 2020) |> 
+  write_csv("nba_player_stats_pt2.csv")
 
-count(nba_full, WL)
+nba_comb |> 
+  filter(year >= 2021 & year <= 2024) |> 
+  write_csv("nba_player_stats_pt3.csv")
 
-## Clean the data
+## Import raw teams data
 
-nba_full <- nba_full |> 
-    mutate(year = as.numeric(substr(season_year, 1, 4)))
+nba_teams <- read_csv("regular_season_totals_2010_2024.csv")
 
-## Find average 3 point shots
+colnames(nba_teams)
 
-wl_tab <- nba_full |> 
-    group_by(year, WL) |> 
-    filter(minutes > 1) |> 
-    summarize(avg_3point = mean(threePointersAttempted, na.rm = T))
+## Clean data
 
+nba_teams <- janitor::clean_names(nba_teams)
 
-wl_tab_w <- wl_tab |> 
-    pivot_wider(
-        names_from = "WL",
-        values_from = "avg_3point")
-wl_tab_w
+colnames(nba_teams)
 
-## Plot average 3 point attempts per player
+nba_teams <- nba_teams |> 
+  select(season_year, team_id, team_name, game_id, wl, min, pts)
 
-p1 <- ggplot(data = wl_tab) +
-    geom_line(aes(x = year, y = avg_3point, color = WL))
+nba_teams <- nba_teams |> 
+  rename(total_mins = min,
+    total_points = pts)
 
-print(p1)
+nba_teams <- nba_teams |> 
+  mutate(team_id = as.character(team_id))
+
+glimpse(nba_teams)
+
+## Export file
+
+nba_teams |> 
+  write_csv("nba_team_stats.csv")
+
