@@ -8,11 +8,11 @@ options(scipen = 999)
 
 ## Read in original data and combine
 
-part1 <- read_csv("regular_season_box_scores_2010_2024_part_1.csv")
+part1 <- read_csv("original_data/regular_season_box_scores_2010_2024_part_1.csv")
 
-part2 <- read_csv("regular_season_box_scores_2010_2024_part_2.csv")
+part2 <- read_csv("original_data/regular_season_box_scores_2010_2024_part_2.csv")
 
-part3 <- read_csv("regular_season_box_scores_2010_2024_part_3.csv")
+part3 <- read_csv("original_data/regular_season_box_scores_2010_2024_part_3.csv")
 
 nba_comb <- bind_rows(part1, part2, part3)
 
@@ -47,7 +47,7 @@ nba_comb <- nba_comb |>
     points, mins,
     fieldGoalsAttempted, fieldGoalsMade,
     threePointersAttempted, threePointersMade,
-    freeThrowsAttempted, threePointersMade,
+    freeThrowsAttempted, freeThrowsMade,
     reboundsTotal, assists, steals, blocks,
     turnovers, foulsPersonal
   )
@@ -72,7 +72,7 @@ nba_comb |>
 
 ## Import raw teams data
 
-nba_teams <- read_csv("regular_season_totals_2010_2024.csv")
+nba_teams <- read_csv("original_data/regular_season_totals_2010_2024.csv")
 
 colnames(nba_teams)
 

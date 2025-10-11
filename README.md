@@ -4,52 +4,34 @@ This repository contains CSV files containing comprehensive NBA data spanning fr
 
 This data set was created by [@NocturneBear](https://github.com/NocturneBear) and then edited by [@rpcaraher](https://github.com/rpcaraher).
 
----
-
 ## Usage
 
 Each of the **nba_player_stats** files contains data at the player-game level, organized by season. The **team_stats** file contains data on game outcomes at the team-game level.
 The **nba_team_stats** data can be linked to unique rows in the **player_stats** data using the key variables `season_year`, `game_id`, and `team_id`.
 
----
+## Dimensions
 
-## Original schema of box scores 
+### NBA Player Stats Datafiles
 
-- [play_off_box_scores_2010_2024.csv](https://github.com/NocturneBear/NBA-Data-2010-2024/blob/main/play_off_box_scores_2010_2024.csv)
-- [regular_season_box_scores_2010_2024_part_1.csv](https://github.com/NocturneBear/NBA-Data-2010-2024/blob/main/regular_season_box_scores_2010_2024_part_1.csv)
-- [regular_season_box_scores_2010_2024_part_2.csv](https://github.com/NocturneBear/NBA-Data-2010-2024/blob/main/regular_season_box_scores_2010_2024_part_2.csv)
-- [regular_season_box_scores_2010_2024_part_3.csv](https://github.com/NocturneBear/NBA-Data-2010-2024/blob/main/regular_season_box_scores_2010_2024_part_3.csv)
-
-### Dimensions
-
-- **season_year**: The year of the basketball season.
+- **season_year**: The season of the basketball season.
+- **year**: The year of the start of the basketball season.
 - **game_date**: The date of the game.
-- **gameId**: Unique identifier for the game.
-- **teamId**: Unique identifier for the team.
-- **teamCity**: The city where the team is based.
-- **teamName**: The name of the team.
-- **teamTricode**: A three-letter code representing the team.
-- **teamSlug**: A unique identifier for the team.
-- **personId**: Unique identifier for the person (player).
-- **personName**: The name of the person (player).
+- **game_id**: Unique identifier for the game.
+- **matchup**: The teams playing in the game.
+- **team_id**: Unique identifier for the team.
+- **team_city**: The city where the team is based.
+- **team_name**: The name of the team.
+- **team_abb**: A three-letter code representing the team.
+- **player_id**: Unique identifier for the person (player).
+- **player_name**: The name of the person (player).
 - **position**: The position of the player.
-- **comment**: Any additional comments or notes.
-- **jerseyNum**: The jersey number of the player.
-
-### Metrics
-
-- **minutes**: The number of minutes played by the player.
+- **mins**: The number of minutes played by the player.
 - **fieldGoalsMade**: The number of field goals made by the player.
 - **fieldGoalsAttempted**: The number of field goals attempted by the player.
-- **fieldGoalsPercentage**: The shooting percentage for field goals.
-- **threePointersMade**: The number of three-pointers made by the player.
-- **threePointersAttempted**: The number of three-pointers attempted by the player.
-- **threePointersPercentage**: The shooting percentage for three-pointers.
 - **freeThrowsMade**: The number of free throws made by the player.
 - **freeThrowsAttempted**: The number of free throws attempted by the player.
-- **freeThrowsPercentage**: The shooting percentage for free throws.
-- **reboundsOffensive**: The number of offensive rebounds by the player.
-- **reboundsDefensive**: The number of defensive rebounds by the player.
+- **threePointersMade**: The number of three-pointers made by the player.
+- **threePointersAttempted**: The number of three-pointers attempted by the player.
 - **reboundsTotal**: The total number of rebounds by the player.
 - **assists**: The number of assists by the player.
 - **steals**: The number of steals by the player.
@@ -57,55 +39,17 @@ The **nba_team_stats** data can be linked to unique rows in the **player_stats**
 - **turnovers**: The number of turnovers by the player.
 - **foulsPersonal**: The number of personal fouls committed by the player.
 - **points**: The total number of points scored by the player.
-- **plusMinusPoints**: The plus-minus statistic for the player, indicating the team's score differential when the player is on the court.
 
-## Original schema of game totals 
+### NBA Team Stats Datafiles
 
-- [play_off_totals_2010_2024.csv](https://github.com/NocturneBear/NBA-Data-2010-2024/blob/main/play_off_totals_2010_2024.csv)
-- [regular_season_totals_2010_2024.csv](https://github.com/NocturneBear/NBA-Data-2010-2024/blob/main/regular_season_totals_2010_2024.csv)
+- **season_year**: The year of the basketball season.
+- **game_id**: Unique identifier for the game.
+- **team_id**: Unique identifier for the team.
+- **team_name**: The name of the team.
+- **wl**: Takes a value of `W` if the team won the game, and `L` if they lost.
+- **total_mins**: Total length of the game in minutes.
+- **total_points**: The total number of points scored by the team in the game.
 
-### Dimensions
-
-- **SEASON_YEAR**: The year of the NBA season.
-- **TEAM_ID**: Unique identifier for the team.
-- **TEAM_ABBREVIATION**: Abbreviated name of the team.
-- **TEAM_NAME**: Full name of the team.
-- **GAME_ID**: Unique identifier for the game.
-- **GAME_DATE**: Date of the game.
-- **MATCHUP**: Matchup details indicating the teams involved.
-- **WL**: Outcome of the game (Win or Loss).
-
-### Metrics
-
-- **MIN**: Total minutes played in the game.
-- **FGM**: Field goals made.
-- **FGA**: Field goals attempted.
-- **FG_PCT**: Field goal percentage.
-- **FG3M**: Three-point field goals made.
-- **FG3A**: Three-point field goals attempted.
-- **FG3_PCT**: Three-point field goal percentage.
-- **FTM**: Free throws made.
-- **FTA**: Free throws attempted.
-- **FT_PCT**: Free throw percentage.
-- **OREB**: Offensive rebounds.
-- **DREB**: Defensive rebounds.
-- **REB**: Total rebounds.
-- **AST**: Assists.
-- **TOV**: Turnovers.
-- **STL**: Steals.
-- **BLK**: Blocks.
-- **BLKA**: Opponent's blocks.
-- **PF**: Personal fouls.
-- **PFD**: Personal fouls drawn.
-- **PTS**: Total points scored.
-- **PLUS_MINUS**: Plus-minus statistic.
-- **GP_RANK**: Rank based on games played.
-- **W_RANK**: Rank based on wins.
-- **L_RANK**: Rank based on losses.
-- **W_PCT_RANK**: Rank based on win percentage.
-- **MIN_RANK**: Rank based on minutes played.
-- **Ranks for various statistical categories like field goals made, rebounds, assists, etc., indicated by suffix _RANK.**
-- **AVAILABLE_FLAG**: Indicates if the data for this row is available.
 
 ## License
 
