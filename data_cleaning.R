@@ -99,3 +99,62 @@ glimpse(nba_teams)
 nba_teams |> 
   write_csv("nba_team_stats.csv")
 
+
+## Run Test Regressions
+
+nba_comb <- nba_comb |> 
+  left_join(nba_teams, by = c("season_year", "game_id", "team_id"))
+
+nba_comb <- nba_comb |> 
+  filter(points > 1)
+
+nba_comb <- nba_comb |> 
+  mutate(position_center = case_when(position == "C" ~ 1,
+    is.na(position) ~ NA_real_,
+  TRUE ~ 0),
+position_guard = case_when(position == "G" ~ 1,
+  is.na(position) ~ NA_real_,
+  TRUE ~ 0))
+
+
+reg1 <- lm(points ~ threePointersAttempted + fieldGoalsAttempted + 
+    mins + freeThrowsMade + reboundsTotal + assists + steals + blocks + 
+    turnovers + foulsPersonal + position_center + position_guard,
+    data = nba_comb)
+
+summary(reg1)
+
+nba_comb <- nba_comb |> 
+  mutate(season_year.f = factor(season_year),
+    team_id.f = factor(team_id),
+  player_id.f = factor(player_id))
+
+
+reg_fe <- lm(points ~ threePointersAttempted + fieldGoalsAttempted + 
+    mins + freeThrowsMade + reboundsTotal + assists + steals + blocks + 
+    turnovers + foulsPersonal + position_center + position_guard +
+  season_year.f + team_id.f,
+  data = nba_comb)
+
+summary(reg_fe)
+
+## LPM
+
+nba_comb <- nba_comb |> 
+  mutate(won = case_when(wl == "W"~ 1,
+  TRUE ~ 0))
+
+lpm_reg1 <- lm(won ~ threePointersAttempted + fieldGoalsAttempted + 
+    mins + freeThrowsMade + reboundsTotal + assists + steals + blocks + 
+    turnovers + foulsPersonal + position_center + position_guard,
+    data = nba_comb)
+
+summary(lpm_reg1)
+
+lpm_reg2 <- lm(won ~ threePointersAttempted + fieldGoalsAttempted + 
+    mins + freeThrowsMade + reboundsTotal + assists + steals + blocks + 
+    turnovers + foulsPersonal + position_center + position_guard +
+    season_year.f + team_id.f,
+    data = nba_comb)
+
+summary(lpm_reg2)
